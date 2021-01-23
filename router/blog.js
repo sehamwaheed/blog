@@ -83,15 +83,25 @@ router.get('/creator/:a',auth,async(req, res, next) =>{
 })
 
 // upate 
-router.patch('/:id', auth,async (req, res,next)=>{
+router.patch('/:id', auth,fileImage,async (req, res,next)=>{
     const{params: {id} ,body } = req;
+    const imagePath = req.body.imagePath;
+
+
     try{
+
+        if(req.file){
+            const url = req.protocol + '://' + req.get('host');
+            imagePath = url + '/images/' + req.file.filename;
+        }
+        
         const blog= await Blog.getBlogById(req.params.id);
       
         if(blog.author != req.user.id){
             res.send(" access deniad ");
             return;
         }
+        body.imagePath = imagePath;
         const editBlog=await Blog.updateBlog(id, body);
     
        res.json(editBlog);
