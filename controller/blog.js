@@ -4,7 +4,7 @@ const fs=require('fs');
 const createBolg=(data)=>blog.create(data);
 
 const getAllBloges=()=>{
-    return blog.find( {}).exec();
+    return blog.find({}).populate("author").exec();
 }
 const searchByTitel=(titel)=>blog.find({titel:titel});
 
