@@ -28,7 +28,7 @@ const deleteBlog = (id) =>{
        
 }
 
-function deletimag(id){
+async function deletimag(id){
     const {imagePath}= await  blog.findByIdAndDelete(id).exec();
      
     const img= imagePath.split('/');
