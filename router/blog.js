@@ -85,14 +85,15 @@ router.get('/creator/:a',auth,async(req, res, next) =>{
 // upate 
 router.patch('/:id', auth,fileImage,async (req, res,next)=>{
     const{params: {id} ,body } = req;
-    const imagePath = req.body.imagePath;
+    let imagePath = req.body.imagePath;
+// console.log(imagePath);
 
-
-    try{
-
-        if(req.file){
-            const url = req.protocol + '://' + req.get('host');
-            imagePath = url + '/images/' + req.file.filename;
+try{
+    
+    if(req.file){
+        const url = req.protocol + '://' + req.get('host');
+        imagePath = url + '/images/' + req.file.filename;
+        // console.log(imagePath);
         }
         
         const blog= await Blog.getBlogById(req.params.id);
@@ -124,22 +125,22 @@ router.delete('/:id',auth,async (req, res, next)=>{
     catch(err){next(err);}
 })
 
-router.patch('/img/:id',auth,fileImage,async(req, res, next)=>
-{
-    const url = req.protocol + '://' + req.get('host');
-    try{
-        const blog= await Blog.getBlogById(req.params.id);
+// router.patch('/img/:id',auth,fileImage,async(req, res, next)=>
+// {
+//     const url = req.protocol + '://' + req.get('host');
+//     try{
+//         const blog= await Blog.getBlogById(req.params.id);
       
-        if(blog.author != req.user.id){
-            res.send(" access deniad ");
-            return;
-        }
-         const  imgUpdated= await  Blog.updateImage(req.params.id,{ imagePath : url +"/images" + req.file.filename });
-         res.json(imgUpdated);
+//         if(blog.author != req.user.id){
+//             res.send(" access deniad ");
+//             return;
+//         }
+//          const  imgUpdated= await  Blog.updateImage(req.params.id,{ imagePath : url +"/images" + req.file.filename });
+//          res.json(imgUpdated);
 
 
-    }
-    catch(err){next(err);}
-})
+//     }
+//     catch(err){next(err);}
+// })
 
 module.exports=router;
