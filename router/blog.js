@@ -5,7 +5,8 @@ const fileImage= require('../middelware/files');
 const user=require('../controller/user');
 const router=express.Router();
 
-router.post('/',auth,fileImage,async(req, res,next) => {
+// creat bloges
+router.post('/create',auth,fileImage,async(req, res,next) => {
     const url = req.protocol + '://' + req.get('host');
     const blogs={
         titel: req.body.titel,
