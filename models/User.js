@@ -42,7 +42,7 @@ const userSchema = new Schema({
         optional: true,
     }],
 },
-{
+{ 
     toJSON: {
         transform: (doc, ret, options) => {
           delete ret.password;
