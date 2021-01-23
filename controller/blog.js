@@ -16,9 +16,19 @@ const updateBlog=(id,author, body)=>blog.updateOne({_id:id, author:author},body)
 
 const getBlogById = (id) => blog.findById(id).exec();
 
+const updateImage=(id,imgPath)=>{
+    deletimag(id)
+    return blog.findByIdAndUpdate(id,imgPath,{new:true});
+}
 
-const deleteBlog = async(id) =>{
-   
+
+const deleteBlog = (id) =>{
+    deletimag(id);
+  return  blog.findByIdAndDelete(id).exec();
+       
+}
+
+function deletimag(id){
     const {imagePath}= await  blog.findByIdAndDelete(id).exec();
      
     const img= imagePath.split('/');
@@ -32,7 +42,7 @@ const deleteBlog = async(id) =>{
         console.log(e);
     }
 
-   
+
 }
 
 module.exports={
@@ -43,6 +53,7 @@ module.exports={
     searchByAuther,
     updateBlog,
     deleteBlog,
-    getBlogById
+    getBlogById,
+    updateImage
     
 };
