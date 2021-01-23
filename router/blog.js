@@ -64,14 +64,17 @@ router.get('/tage/:tage',auth,async(req, res, next) =>{
 
 //search by author
 router.get('/creator/:a',auth,async(req, res, next) =>{
+    console.log(`asdasd`);
     try{
       
         const author = await user.getName(req.params.a);
+        console.log(author)
      
         if(!author){
             res.send(author);
         }
-        const bloges= await Blog.searchByAuther(author.id);
+
+        const bloges= await Blog.searchByAuther(author._id);
         res.json(bloges);
 
     }catch(err){
@@ -84,21 +87,26 @@ router.patch('/:id', auth,async (req, res,next)=>{
     const{params: {id} ,body } = req;
     try{
         const blog= await Blog.getBlogById(req.params.id);
-        if(blog.author != req.use.id){
+      
+        if(blog.author != req.user.id){
             res.send(" access deniad ");
+            return;
         }
-       const editBlog=await Blog.updateBlog(id,req.user.id,body);
+        const editBlog=await Blog.updateBlog(id, body);
+    
        res.json(editBlog);
 
     }catch(err){next(err);}
 })
 
 //delete
-router.delete('/:id',async (req, res, next)=>{
+router.delete('/:id',auth,async (req, res, next)=>{
     try{
         const blog= await Blog.getBlogById(req.params.id);
-        if(blog.author != req.use.id){
+      
+        if(blog.author != req.user.id){
             res.send(" access deniad ");
+            return;
         }
         const deletedBloge= await Blog.deleteBlog(req.params.id);
           res.json(deletedBloge);
@@ -110,12 +118,12 @@ router.patch('/img/:id',auth,fileImage,async(req, res, next)=>
 {
     const url = req.protocol + '://' + req.get('host');
     try{
-         const blog= await Blog.getBlogById(req.params.id);
-         if(blog.author != req.use.id)
-         {
-             res.send("can't access'");
-             return;
-         }
+        const blog= await Blog.getBlogById(req.params.id);
+      
+        if(blog.author != req.user.id){
+            res.send(" access deniad ");
+            return;
+        }
          const  imgUpdated= await  Blog.updateImage(req.params.id,{ imagePath : url +"/images" + req.file.filename });
          res.json(imgUpdated);
 

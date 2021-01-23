@@ -10,9 +10,14 @@ const searchByTitel=(titel)=>blog.find({titel:titel});
 
 const searchByTages=(tags)=>blog.find({tags:tags});
 
-const searchByAuther=(author)=>blog.find({author:author}).populate("author").exec();
+const searchByAuther=(author)=>{
+    
+    return blog.find({author:author}).populate("author").exec();
+}
 
-const updateBlog=(id,author, body)=>blog.updateOne({_id:id, author:author},body);
+const updateBlog=(id, body)=>{
+   return blog.findByIdAndUpdate(id,body,{new:true})
+};
 
 const getBlogById = (id) => blog.findById(id).exec();
 
@@ -24,7 +29,7 @@ const updateImage=(id,imgPath)=>{
 
 const deleteBlog = (id) =>{
     deletimag(id);
-  return  blog.findByIdAndDelete(id).exec();
+     return  blog.findByIdAndDelete(id).exec();
        
 }
 

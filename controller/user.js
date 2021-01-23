@@ -24,6 +24,7 @@ const updateUser= (id,data)=>{
 
 //login user
 const loginUser = async ({ email, password }) => {
+    
    // search for user by username
    const user = await User.findOne({ email }).exec();
  
@@ -64,7 +65,7 @@ const deleteUser=(id)=>{
 }
 
 // get user name
-const getName =(name)=>User.find({userName:name})
+const getName =(name)=>User.findOne({userName:name}).exec();
 // get user identity
 const userId= (id)=>User.findById(id).exec();
 
