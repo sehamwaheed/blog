@@ -125,22 +125,5 @@ router.delete('/:id',auth,async (req, res, next)=>{
     catch(err){next(err);}
 })
 
-// router.patch('/img/:id',auth,fileImage,async(req, res, next)=>
-// {
-//     const url = req.protocol + '://' + req.get('host');
-//     try{
-//         const blog= await Blog.getBlogById(req.params.id);
-      
-//         if(blog.author != req.user.id){
-//             res.send(" access deniad ");
-//             return;
-//         }
-//          const  imgUpdated= await  Blog.updateImage(req.params.id,{ imagePath : url +"/images" + req.file.filename });
-//          res.json(imgUpdated);
-
-
-//     }
-//     catch(err){next(err);}
-// })
 
 module.exports=router;

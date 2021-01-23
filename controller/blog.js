@@ -21,10 +21,7 @@ const updateBlog=(id, body)=>{
 
 const getBlogById = (id) => blog.findById(id).exec();
 
-const updateImage=(id,imgPath)=>{
-    deletimag(id)
-    return blog.findByIdAndUpdate(id,imgPath,{new:true});
-}
+
 
 
 const deleteBlog = (id) =>{
@@ -59,6 +56,6 @@ module.exports={
     updateBlog,
     deleteBlog,
     getBlogById,
-    updateImage
+
     
 };

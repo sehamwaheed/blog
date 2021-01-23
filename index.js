@@ -4,12 +4,12 @@ const mongoose=require("mongoose");
 const app = express();
 const route = require("./router");
 
-// mongoose.connect('mongodb+srv://dinawaheed:23101997@cluster0.vw3rj.mongodb.net/blogs?retryWrites=true&w=majority',
-// { useUnifiedTopology: true, useNewUrlParser: true,   useCreateIndex:true}).then((c) => {
-//     console.log('connect database')
-// });
+mongoose.connect('mongodb+srv://dinawaheed:23101997@cluster0.vw3rj.mongodb.net/blogs?retryWrites=true&w=majority',
+{ useUnifiedTopology: true, useNewUrlParser: true,   useCreateIndex:true}).then((c) => {
+    console.log('connect database')
+});
 
-mongoose.connect('mongodb://localhost:27017/testnode', { useUnifiedTopology: true, useNewUrlParser: true,   useCreateIndex:true, useFindAndModify:false});
+
 app.use(express.json());
 app.use('/images', express.static(path.join('images')));
 app.use('/',route);
