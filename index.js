@@ -14,7 +14,7 @@ app.use('/images', express.static(path.join('images')));
 app.use('/',route);
 
 //if rout is wrong  then enter  the  error message
-app.use((req, res,next) => {
+app.use('*',(req, res,next) => {
     res.status(404).json({error:"NOT_FOUND"});
 })
 
@@ -31,7 +31,7 @@ app.use((erro,req, res, next) => {
      }
 });
 
-const {Port=4000}=process.env;
-app.listen(Port,()=>{
-    console.log("your app lisen on Port :",Port);
+const {PORT=8080}=process.env;
+app.listen(process.env.PORT ||PORT,()=>{
+    console.log("your app lisen on Port :",PORT);
 })
