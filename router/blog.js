@@ -82,6 +82,10 @@ router.get('/creator/:a',auth,async(req, res, next) =>{
 router.patch('/:id', auth,async (req, res,next)=>{
     const{params: {id} ,body } = req;
     try{
+        const blog= await Blog.getBlogById(req.params.id);
+        if(blog.author != req.use.id){
+            res.send(" access deniad ");
+        }
        const editBlog=await Blog.updateBlog(id,req.user.id,body);
        res.json(editBlog);
 
@@ -91,7 +95,10 @@ router.patch('/:id', auth,async (req, res,next)=>{
 //delete
 router.delete('/:id',async (req, res, next)=>{
     try{
-
+        const blog= await Blog.getBlogById(req.params.id);
+        if(blog.author != req.use.id){
+            res.send(" access deniad ");
+        }
         const deletedBloge= await Blog.deleteBlog(req.params.id);
           res.json(deletedBloge);
     }

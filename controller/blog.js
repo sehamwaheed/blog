@@ -14,6 +14,9 @@ const searchByAuther=(author)=>blog.find({author:author}).populate("author").exe
 
 const updateBlog=(id,author, body)=>blog.updateOne({_id:id, author:author},body);
 
+const getBlogById = (id) => blog.findById(id).exec();
+
+
 const deleteBlog = async(id) =>{
    
     const {imagePath}= await  blog.findByIdAndDelete(id).exec();
@@ -39,6 +42,7 @@ module.exports={
     searchByTages,
     searchByAuther,
     updateBlog,
-    deleteBlog
+    deleteBlog,
+    getBlogById
     
 };
