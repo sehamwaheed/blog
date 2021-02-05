@@ -9,10 +9,26 @@ mongoose.connect('mongodb+srv://dinawaheed:23101997@cluster0.vw3rj.mongodb.net/b
     console.log('connect database')
 });
 
+// cors middelware
+app.use((request,response,next)=>{
+
+    response.setHeader('Access-Control-Allow-Origin','*');
+    response.setHeader(
+        'Access-Control-Allow-Headers','Origin, X-Requested-With, Content-Type, Accept, Authorization'
+        );
+    response.setHeader(
+        'Access-Control-Allow-Methods','GET, POST, PUT, PATCH, DELETE, OPTIONS'
+        );
+
+
+    next();
+})
 
 app.use(express.json());
 app.use('/images', express.static(path.join('images')));
 app.use('/',route);
+
+
 
 //if rout is wrong  then enter  the  error message
 app.use('*',(req, res,next) => {
