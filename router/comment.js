@@ -21,7 +21,7 @@ router.post("/add/:blog", auth, async (req, res, next) => {
       article.comments.push(commnet._id);
   
       // update article
-      const update = await Blog.updateBlog(blogId, article).exec();
+      const update = await Blog.updateBlog(blogId, article).populate('comments').exec();
       console.log("After Update", update);
   
       res.json(update);
