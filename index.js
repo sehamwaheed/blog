@@ -1,6 +1,8 @@
 const path = require("path");
 const express = require("express");
 const mongoose = require("mongoose");
+var cors = require('cors')
+
 const app = express();
 const route = require("./router");
 
@@ -10,21 +12,22 @@ mongoose.connect('mongodb+srv://dinawaheed:23101997@cluster0.vw3rj.mongodb.net/b
     });
 
 
+app.use(cors())
 
-// cors middelware
-app.use((request, response, next) => {
+// // cors middelware
+// app.use((request, response, next) => {
 
-    response.setHeader('Access-Control-Allow-Origin', '*');
-    response.setHeader(
-        'Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization'
-    );
-    response.setHeader(
-        'Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS'
-    );
+//     response.setHeader('Access-Control-Allow-Origin', '*');
+//     response.setHeader(
+//         'Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization'
+//     );
+//     response.setHeader(
+//         'Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS'
+//     );
 
 
-    next();
-})
+//     next();
+// })
 
 app.use(express.json());
 app.use('/images', express.static(path.join('images')));
