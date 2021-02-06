@@ -153,8 +153,14 @@ router.post("/like/:id", auth, async (req, res, next) => {
         res.json(update);
         return;
       }
+      else{
+        blog.likes.splice(index, 1);
+        const update = await Blog.updateBlog(req.params.id, blog);
+        res.json(update);
+        return;
+      }
   
-      res.send("Already Liked");
+      
     } catch (error) {
       next(error);
     }
