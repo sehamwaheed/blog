@@ -26,17 +26,17 @@ const updateUser= (id,data)=>{
 const loginUser = async ({ email, password }) => {
     
    // search for user by username
-   const user = await User.findOne({ email }).exec();
+   const user = await User.findOne({ email:email }).exec();
  
    // check if user is Authenticated
    if (!user) {
-     throw Error("UN_AUTHENTICATED");
+     throw new Error("UN_AUTHENTICATED");
    }
  
    // check if password is correct or not
    const validPassword = await user.validatePassword(password);
    if (!validPassword) {
-     throw Error("UN_AUTHENTICATED");
+     throw new Error("UN_AUTHENTICATED");
    }
  
    const token = await asyncSign(
