@@ -24,8 +24,21 @@ const blogSchema = new Schema({
      creatAt:{
          type: 'Date',
          default: new Date,
-     }
-})
+     },
+     likes: [
+        {
+          type: Schema.Types.ObjectId,
+          ref: "User",
+        },
+      ],
+      comments: [
+        {
+          type: Schema.Types.ObjectId,
+          ref: "Comment",
+        },
+      ],
+    });
+    
 
 const blogModel=mongoose.model('Blog',blogSchema);
 module.exports=blogModel;

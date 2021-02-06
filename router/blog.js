@@ -5,6 +5,17 @@ const fileImage= require('../middelware/files');
 const user=require('../controller/user');
 const router=express.Router();
 
+
+//get blog by id
+router.get('/:id',auth,async(req, res, next)=>{
+    try{
+        console.log('in get id');
+     const blog = await Blog.getBlogById(req.params.id);
+     console.log(blog);
+     res.json(blog);
+    }catch(err){next(err);}
+ })
+
 // creat bloges
 router.post('/create',auth,fileImage,async(req, res,next) => {
     const url = req.protocol + '://' + req.get('host');
@@ -125,5 +136,52 @@ router.delete('/:id',auth,async (req, res, next)=>{
     catch(err){next(err);}
 })
 
+
+// like The Article
+router.post("/like/:id", auth, async (req, res, next) => {
+    try {
+      const blog = await Blog.getBlogById(req.params.id);
+  
+      const index = blog.likes.findIndex((c) => {
+        return (req.user.id = c);
+      });
+  
+      if (index == -1) {
+        blog.likes.push(req.user.id);
+        console.log(blog);
+        const update = await Blog.updateBlog(req.params.id, blog);
+        res.json(update);
+        return;
+      }
+  
+      res.send("Already Liked");
+    } catch (error) {
+      next(error);
+    }
+  });
+
+  // un Like
+  router.post('/unlike/:id',auth, async(req, res, next)=>{
+    try {
+        const blog = await Blog.getBlogById(req.params.id);
+    
+        const index = blog.likes.findIndex((c) => {
+          return (req.user.id = c);
+        });
+    
+        if (index != -1) {
+
+        blog.likes.splice(index, 1);
+          console.log(blog);
+          const update = await Blog.updateBlog(req.params.id, blog);
+          res.json(update);
+          return;
+        }
+    
+        res.send("Already UnLiked");
+      } catch (error) {
+        next(error);
+      }
+  })
 
 module.exports=router;
