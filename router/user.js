@@ -43,10 +43,13 @@ router.post("/login",async(req, res, next) => {
         console.log(`body`, body);
       const user = await loginUser(body);
       if (!user){
-res.json({error:"error happened"})
+        res.status(500).json({error:"error happened"})
       }
+   
       res.json(user);
     } catch (e) {
+        console.log("from catch");
+        console.log(e);
       next(e);
     }
 })

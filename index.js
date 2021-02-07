@@ -10,9 +10,9 @@ mongoose.connect('mongodb+srv://dinawaheed:23101997@cluster0.vw3rj.mongodb.net/b
     { useUnifiedTopology: true, useNewUrlParser: true, useCreateIndex: true }).then((c) => {
         console.log('connect database')
     });
+ 
 
 
-app.use(cors())
 
 // // cors middelware
 // app.use((request, response, next) => {
@@ -41,17 +41,36 @@ app.use('*', (req, res, next) => {
 })
 
 
-// if has error in  server enter this error handler
-app.use((erro, req, res, next) => {
-    // map error and send it to user to understand what happened
-    // instansof
-    //check if error is a mongoose error using instanceof
 
-    if (erro instanceof mongoose.Error.ValidationError) {
 
-        res.status(422).json(erro.errors);
+app.use((err, req, res, next) => {
+    // Map the error and send it to user
+    // instanceof
+    // Check if this err is a mongoose err using instanceof
+    console.log("from instance1");
+    console.log(err );
+    if (err instanceof mongoose.Error.ValidationError) {
+      console.log("from first if");
+      return res.status(422).json(err.errors);
     }
-});
+  
+    if (err.code === 11000) {
+      console.log("from Second If");
+      res
+        .status(422)
+        .json({ statusCode: "ValidationError", property: err.keyValue });
+    }
+  
+    if (err.status === 400) {
+      res.status(400).json({ type: err.type });
+    }
+  
+    if (err.message === "UN_AUTHENTICATED") {
+      res.status(401).json({ statusCode: err.message });
+    }
+  
+    res.send(err);
+  });
 
 const { PORT = 8080 } = process.env;
 app.listen(process.env.PORT || PORT, () => {

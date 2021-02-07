@@ -1,0 +1,137 @@
+{
+	// Place your Override-BackEnd workspace snippets here. Each snippet is defined under a snippet name and has a scope, prefix, body and 
+	// description. Add comma separated ids of the languages where the snippet is applicable in the scope field. If scope 
+	// is left empty or omitted, the snippet gets applied to all languages. The prefix is what is 
+	// used to trigger the snippet and the body will be expanded and inserted. Possible variables are: 
+	// $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders. 
+	// Placeholders with the same ids are connected.
+	// Example:
+	// "Print to console": {
+	// 	"scope": "javascript,typescript",
+	// 	"prefix": "log",
+	// 	"body": [
+	// 		"console.log('$1');",
+	// 		"$2"
+	// 	],
+	// 	"description": "Log output to console"
+	// }
+	
+		// Place your global snippets here. Each snippet is defined under a snippet name and has a scope, prefix, body and 
+		// description. Add comma separated ids of the languages where the snippet is applicable in the scope field. If scope 
+		// is left empty or omitted, the snippet gets applied to all languages. The prefix is what is 
+		// used to trigger the snippet and the body will be expanded and inserted. Possible variables are: 
+		// $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders. 
+		// Placeholders with the same ids are connected.
+		// Example:
+		"Nest Mongoose Entity": {
+			"scope": "javascript,typescript",
+			"prefix": "nsentmon",
+			"body": [
+				"import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';",
+					"import { Document } from 'mongoose';",
+					"import * as mongoose from 'mongoose';",
+					"export type ${1:entityName}Document = ${1:entityName} & Document;",
+					"@Schema()",
+					"export class ${1:entityName} extends OBaseEntity {",
+					"}",
+					"export const ${1:entityName}Schema = SchemaFactory.createForClass(${1:entityName});"
+			],
+			"description": "Log output to console"
+		},
+	
+ 
+	  // Place your global snippets here. Each snippet is defined under a snippet name and has a scope, prefix, body and
+	  // description. Add comma separated ids of the languages where the snippet is applicable in the scope field. If scope
+	  // is left empty or omitted, the snippet gets applied to all languages. The prefix is what is
+	  // used to trigger the snippet and the body will be expanded and inserted. Possible variables are:
+	  // $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders.
+	  // Placeholders with the same ids are connected.
+	  // Example:
+	  "Nest Mongose Translated Service": {
+		"scope": "javascript,typescript",
+		"prefix": "nsmon",
+		"body": [
+		  "import { InjectModel } from '@nestjs/mongoose';",
+		  "import { Model } from 'mongoose';",
+		  "@Injectable()",
+		  "export class ${1:entityType}Service {",
+		  "constructor(",
+		  " @InjectModel(${1:entityType}.name) private repo: Model<${1:entityType}Document>,",
+		  " private translate: TranslateService",
+		  " ) { }",
+		  " async save(req: ${1:entityType}) {",
+		  "let saved = await this.repo.create(req);",
+		  " this.translateWords(saved)",
+		  " return saved;",
+		  "}",
+		  "async translateWords(saved: ${1:entityType}Document) {",
+		  " // saved.title = await this.translate.translateWord({ textAr: saved.title.ar });",
+		  " await this.repo.findByIdAndUpdate(saved.id, saved);",
+		  " }",
+		  " async findAll(): Promise<${1:entityType}[]> {",
+		  "  return this.repo.find().exec();",
+		  " }",
+		  " async findOne(id: string): Promise<${1:entityType}> {",
+		  "return this.repo.findById(id).exec();",
+		  " }",
+		  "async update(id: string, req: ${1:entityType}): Promise<${1:entityType}> {",
+		  "  return await this.repo.findByIdAndUpdate(id, req);",
+		  " }",
+		  " async remove(id: string): Promise<${1:entityType}> {",
+		  " return await this.repo.findByIdAndRemove(id);",
+		  "}",
+		  "}"
+		],
+		"description": "Log output to console"
+	  },
+
+	
+		// Place your global snippets here. Each snippet is defined under a snippet name and has a scope, prefix, body and 
+		// description. Add comma separated ids of the languages where the snippet is applicable in the scope field. If scope 
+		// is left empty or omitted, the snippet gets applied to all languages. The prefix is what is 
+		// used to trigger the snippet and the body will be expanded and inserted. Possible variables are: 
+		// $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders. 
+		// Placeholders with the same ids are connected.
+		// Example:
+		// "Print to console": {
+		//  "scope": "javascript,typescript",
+		//  "prefix": "log",
+		//  "body": [
+		//      "console.log('$1');",
+		//      "$2"
+		//  ],
+		//  "description": "Log output to console"
+		// }
+		"Nest Controller": {
+			"scope": "javascript,typescript",
+			"prefix": "nsco",
+			"body": [
+				"@ApiTags('${1:entityName}')",
+				"@Controller('${1:entityName}')",
+				"export class ${1:entityName}Controller { \n",
+				"/* CRUD End Points for ${1:entityName} Created By Override */",
+				"\n",
+				"constructor(private service:  ${1:entityName}Service) \n { }",
+				"/* POST ${1:entityName} End Point */",
+				"@UseGuards(JwtAuthGuard) \n @Post() \n async save${1:entityName}(@Body() req: ${1:entityName}) :Promise<${1:entityType}> {",
+				"return this.service.save(req) \n } \n \n ",
+				"/* GET All ${1:entityName}s End Point */",
+				"@UseGuards(JwtAuthGuard) \n @Get('/all') \n getAll${1:entityName}s() :Promise<${1:entityType}[]> {",
+				"return this.service.findAll(); \n } \n \n",
+				"/* GET One ${1:entityName} End Point */",
+				"@UseGuards(JwtAuthGuard) \n @Get(':id') \n findOne(@Param('id') id: string) :Promise<${1:entityType}> {",
+				"return this.service.findOne(id); \n } \n  \n ",
+				"/* PUT  ${1:entityName} End Point */",
+				"@UseGuards(JwtAuthGuard) \n @Put(':id') \n update${1:entityName}(@Param('id') id: string, @Body() req: ${1:entityName})  :Promise<any>{",
+				" return this.service.update(id, req);\n } \n \n",
+				"/* Delete  ${1:entityName} End Point */",
+				"@UseGuards(JwtAuthGuard) \n @Delete(':id') \n delete${1:entityName}(@Param('id') id: string) :Promise<any>{",
+				"return this.service.remove(id) \n } \n ",
+				"/* End of ${1:entityName} Controller Class \n \n */",
+				"}"
+			],
+			"description": "NEST CRUD CONTROLLER BY OVERRIDE"
+		}
+	
+	
+}
