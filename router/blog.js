@@ -109,7 +109,7 @@ try{
         
         const blog= await Blog.getBlogById(req.params.id);
       
-        if(blog.author != req.user.id){
+        if(blog.author._id != req.user.id){
             res.send(" access deniad ");
             return;
         }
@@ -126,7 +126,7 @@ router.delete('/:id',auth,async (req, res, next)=>{
     try{
         const blog= await Blog.getBlogById(req.params.id);
       
-        if(blog.author != req.user.id){
+        if(blog.author._id != req.user.id){
             res.send(" access deniad ");
             return;
         }
