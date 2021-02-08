@@ -1,11 +1,10 @@
 const path = require("path");
 const express = require("express");
 const mongoose = require("mongoose");
-var cors = require('cors')
-app.use(cors());
+var cors = require('cors');
 const app = express();
 const route = require("./router");
-
+app.use(cors());
 mongoose.connect('mongodb+srv://dinawaheed:23101997@cluster0.vw3rj.mongodb.net/blogs?retryWrites=true&w=majority',
     { useUnifiedTopology: true, useNewUrlParser: true, useCreateIndex: true }).then((c) => {
         console.log('connect database')
