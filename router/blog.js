@@ -29,6 +29,20 @@ router.get('/title/:titel',auth,async(req, res,next) =>{
     }
 })
 
+//search by tages
+router.get('/tage/:tage',auth,async(req, res, next) =>{
+    try{
+        const search= await Blog.searchByTages(req.params.tage);
+        console.log(search);
+        res.json(search);
+
+
+    }catch(err){
+        next(err);
+    }
+    
+})
+
 // creat bloges
 router.post('/create',auth,fileImage,async(req, res,next) => {
     const url = req.protocol + '://' + req.get('host');
@@ -63,18 +77,7 @@ router.get('/',async(req, res,next) =>{
 
 
 
-//search by tages
-router.get('/tage/:tage',auth,async(req, res, next) =>{
-    try{
-        const search= await Blog.searchByTages(req.params.tage);
-        res.json(search);
 
-
-    }catch(err){
-        next(err);
-    }
-    
-})
 
 //search by author
 router.get('/creator/:a',auth,async(req, res, next) =>{
