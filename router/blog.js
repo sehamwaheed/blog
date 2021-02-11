@@ -18,7 +18,7 @@ router.get('/:id',auth,async(req, res, next)=>{
 
  
 // search by titel 
-router.get('title/:titel',auth,async(req, res,next) =>{
+router.get('/title/:titel',auth,async(req, res,next) =>{
     try{
         const resultSearch= await Blog.searchByTitel(req.params.titel);
         console.log(resultSearch);
