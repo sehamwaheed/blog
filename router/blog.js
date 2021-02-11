@@ -49,7 +49,7 @@ router.get('/',async(req, res,next) =>{
 })
 
 // search by titel 
-router.get('/:titel',auth,async(req, res,next) =>{
+router.get('title/:titel',auth,async(req, res,next) =>{
     try{
         const resultSearch= await Blog.searchByTitel(req.params.titel);
         res.json(resultSearch);
