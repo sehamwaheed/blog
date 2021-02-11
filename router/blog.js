@@ -16,6 +16,18 @@ router.get('/:id',auth,async(req, res, next)=>{
     }catch(err){next(err);}
  })
 
+ 
+// search by titel 
+router.get('title/:titel',auth,async(req, res,next) =>{
+    try{
+        const resultSearch= await Blog.searchByTitel(req.params.titel);
+        res.json(resultSearch);
+
+    }catch(e){
+        next(e);
+    }
+})
+
 // creat bloges
 router.post('/create',auth,fileImage,async(req, res,next) => {
     const url = req.protocol + '://' + req.get('host');
@@ -48,16 +60,6 @@ router.get('/',async(req, res,next) =>{
     }
 })
 
-// search by titel 
-router.get('title/:titel',auth,async(req, res,next) =>{
-    try{
-        const resultSearch= await Blog.searchByTitel(req.params.titel);
-        res.json(resultSearch);
-
-    }catch(e){
-        next(e);
-    }
-})
 
 
 //search by tages
