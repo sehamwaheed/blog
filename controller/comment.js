@@ -1,7 +1,13 @@
 const Comment = require("../models/Comment");
 
 // create new Comment
-const createComment = (comment) => Comment.create(comment);
+const createComment = (comment) => Comment.create(comment).populate('author').populate({
+  path:"comments",
+  populate:{
+      path:"author",
+      model: "User"
+  }
+}).exec();;
 
 // update Comment
 const updateComment = (id, comment) =>
