@@ -26,7 +26,13 @@ const updateBlog=(id, body)=>{
    return blog.findByIdAndUpdate(id,body,{new:true})
 };
 
-const getBlogById = (id) => blog.findById(id).populate("author").populate("comments").exec();
+const getBlogById = (id) => blog.findById(id).populate("author").populate("comments") .populate({
+        path:"comments",
+        populate:{
+            path:"author",
+            model: "User"
+        }
+    }).exec();
 
 
 
