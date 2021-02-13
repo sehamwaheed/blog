@@ -21,7 +21,15 @@ router.post("/add/:blog", auth, async (req, res, next) => {
       article.comments.push(commnet._id);
   
       // update article
-      const update = await Blog.updateBlog(blogId, article).populate('comments').populate('author').exec();
+      const update = await Blog.updateBlog(blogId, article).populate('comments').populate('author')
+      .populate({
+        path:"comments",
+        populate:{
+            path:"author",
+            model: "User"
+        }
+    })
+      .exec();
       console.log("After Update", update);
   
       res.json(update);
@@ -45,8 +53,8 @@ router.delete("/delete/:commentId", auth, async (req, res, next) => {
     try {
       // check the access of user if is auther or not
       const comment = await Comment.findCommentByID(req.params.commentId);
-  
-      if (comment.author == req.user.id) {
+  console.log(comment.author._id == req.user.id);
+      if (comment.author._id == req.user.id) {
         // delete comment
         await Comment.deleteComment(comment._id);
         // remove ref from article
@@ -60,12 +68,20 @@ router.delete("/delete/:commentId", auth, async (req, res, next) => {
         blog.comments.splice(index, 1);
   
         // update blog
-        const update = await Blog.updateBlog(blog._id, blog);
+        const update = await Blog.updateBlog(blog._id, blog).populate("author").populate("comments") .populate({
+          path:"comments",
+          populate:{
+              path:"author",
+              model: "User"
+          }
+      });
         res.json(update);
-        return;
+        
+      }else{
+
+        res.send("Invalid Access");
       }
   
-      res.send("Invalid Access");
     } catch (error) {
       next(error);
     }
