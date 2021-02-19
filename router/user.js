@@ -129,7 +129,7 @@ router.get('/followe/:id',auth, async(req, res, next) => {
             res.send("can not follow your self");
             return;
         }
-        const user=await userId(Id);
+        let user=await userId(Id);
         const index= user.following.findIndex((e) => {
            
             return  req.user.id==e;
@@ -137,8 +137,9 @@ router.get('/followe/:id',auth, async(req, res, next) => {
 
         if(index == -1)
         {
+            user=user.toJSON();
             user.following.push(req.user.id);
-            const userUpdated= await updateUser(Id,user);
+            let userUpdated= await updateUser(Id,user);
             res.json(userUpdated);
         }
     }catch(error) {next(error);}
