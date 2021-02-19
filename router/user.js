@@ -156,15 +156,16 @@ router.patch('/unfollow/:id',auth,async(req, res, next)=>{
             res.send("can not unfollow your self");
             return;
         }
-        const user=await userId(Id);
+        let user=await userId(Id);
         const index= user.following.findIndex((e) => {
            
             return  req.user.id==e;
         })
         
         if(index != -1){
+            user=user.toJSON();
             user.following.splice(index,1);
-           const userUpdated= await updateUser(Id,user);
+           let userUpdated= await updateUser(Id,user);
             res.json(userUpdated);
         }
         
